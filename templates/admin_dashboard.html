@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - All Orders</title>
+    
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06d6a0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6366f1 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            overflow-x: auto;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            animation: gradientShift 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(99, 102, 241, 0.6));
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
+            10% { opacity: 1; transform: scale(1); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(720deg) scale(0); opacity: 0; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: slideDown 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+            animation: slideDown 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-right: 20px;
+            vertical-align: middle;
+            animation: pulse 3s infinite;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.15) rotate(5deg); }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+        }
+
+        /* Flash Messages */
+        .alert {
+            border: none;
+            border-radius: 15px;
+            padding: 18px 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(15px);
+            animation: slideInDown 0.6s ease-out;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(6, 214, 160, 0.9));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(248, 113, 113, 0.9));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 197, 253, 0.9));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(251, 191, 36, 0.9));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            padding: 45px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .dashboard-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.1), transparent);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Manage Button Section */
+        .manage-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid var(--gray-200);
+            position: relative;
+        }
+
+        .manage-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .manage-btn h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        /* Enhanced Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+            border: none !important;
+            border-radius: 16px;
+            padding: 14px 32px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+            text-transform: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary)) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+            color: white;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Perfect Table Styles */
+        .table-responsive {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            background: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-top: 20px;
+        }
+
+        .table {
+            margin-bottom: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* Perfect Header Styling */
+        .table th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+            color: white !important;
+            font-weight: 600;
+            border: none !important;
+            padding: 20px 15px;
+            text-align: center;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-family: 'Poppins', sans-serif;
+            vertical-align: middle;
+        }
+
+        /* Perfect Column Widths */
+        .table th:nth-child(1) { width: 8%; }   /* Order ID */
+        .table th:nth-child(2) { width: 12%; }  /* Customer */
+        .table th:nth-child(3) { width: 10%; }  /* Quantity */
+        .table th:nth-child(4) { width: 20%; }  /* Address */
+        .table th:nth-child(5) { width: 10%; }  /* Status */
+        .table th:nth-child(6) { width: 12%; }  /* Date */
+        .table th:nth-child(7) { width: 18%; }  /* Assignment */
+        .table th:nth-child(8) { width: 10%; }  /* Actions */
+
+        .table th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Perfect Cell Styling */
+        .table td {
+            padding: 18px 15px !important;
+            border: none !important;
+            vertical-align: middle !important;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-200) !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .table tbody tr {
+            transition: var(--transition);
+            border: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, var(--gray-100), rgba(99,102,241,0.05)) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Order ID Styling */
+        .order-id {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        /* Customer Info */
+        .customer-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .customer-info i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        /* Quantity Badge */
+        .qty-badge {
+            background: linear-gradient(135deg, var(--gray-600), var(--gray-700));
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Address Display */
+        .address-display {
+            max-width: 180px;
+            margin: 0 auto;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            color: var(--gray-700);
+        }
+
+        .address-display i {
+            color: var(--info);
+            margin-right: 4px;
+        }
+
+        /* Enhanced Badge Styles */
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+            min-width: 100px;
+            justify-content: center;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, var(--warning), #f97316);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .status-processing {
+            background: linear-gradient(135deg, var(--info), #1d4ed8);
+            color: white;
+        }
+
+        .status-delivered {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Date Display */
+        .date-display {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.3;
+        }
+
+        .date-display i {
+            color: var(--info);
+            margin-right: 4px;
+        }
+
+        /* Assignment Form - Perfectly Aligned */
+        .assignment-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        .assignment-form .form-select {
+            flex: 1;
+            min-width: 140px;
+            max-width: 160px;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+            border: 2px solid var(--gray-300);
+            border-radius: 10px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .assignment-form .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .assignment-form .btn {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .btn-success.action-btn {
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success.action-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+
+        .btn-outline-primary.action-btn {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .btn-outline-primary.action-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Delivered Status Display */
+        .delivered-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--success);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 214, 160, 0.1));
+            border-radius: 15px;
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .delivered-status i {
+            font-size: 1.1rem;
+            animation: checkmark 1s ease-in-out;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container { max-width: 100%; }
+            .dashboard-section { padding: 30px 20px; }
+            
+            .table th:nth-child(4) { width: 25%; }
+            .table th:nth-child(7) { width: 22%; }
+            
+            .assignment-form .form-select {
+                min-width: 120px;
+                max-width: 140px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header h2 { font-size: 2.2rem; }
+            .manage-btn { 
+                flex-direction: column; 
+                gap: 20px; 
+                text-align: center;
+            }
+            
+            .table th, .table td {
+                padding: 12px 8px !important;
+                font-size: 0.8rem;
+            }
+            
+            .assignment-form {
+                flex-direction: column;
+                gap: 8px;
+                max-width: none;
+            }
+            
+            .assignment-form .form-select {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.75rem;
+            }
+            
+            .table th, .table td {
+                padding: 10px 6px !important;
+            }
+            
+            .status-badge, .qty-badge, .action-btn {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+                min-width: 80px;
+            }
+            
+            .customer-info {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        /* Custom scrollbar for table */
+        .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: var(--gray-200);
+            border-radius: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+        }
+
+        /* Loading Animation */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <h2><span class="card-icon">🏢</span>Admin Control Center</h2>
+        <p class="subtitle">Manage all customer orders and deliveries</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container fade-in">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                <i class="fas fa-info-circle me-2"></i>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- Orders Section -->
+        <div class="dashboard-section">
+            <div class="manage-btn">
+                <h4><i class="fas fa-shopping-cart me-2"></i>Customer Orders Overview</h4>
+                <a href="/bottles/list" class="btn btn-primary btn-icon">
+                    <i class="fas fa-wine-bottle"></i>
+                    Manage Inventory
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag me-1"></i>ID</th>
+                            <th><i class="fas fa-user me-1"></i>Customer</th>
+                            <th><i class="fas fa-sort-numeric-up me-1"></i>Quantity</th>
+                            <th><i class="fas fa-map-marker-alt me-1"></i>Delivery Address</th>
+                            <th><i class="fas fa-info-circle me-1"></i>Status</th>
+                            <th><i class="fas fa-clock me-1"></i>Order Date</th>
+                            <th><i class="fas fa-truck me-1"></i>Delivery Assignment</th>
+                            <th><i class="fas fa-cogs me-1"></i>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>
+                                <span class="order-id">#{{ order['id'] }}</span>
+                            </td>
+                            <td>
+                                <div class="customer-info">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>{{ order['username'] }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="qty-badge">
+                                    <i class="fas fa-wine-bottle"></i>
+                                    {{ order['bottle_qty'] }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="address-display">
+                                    <i class="fas fa-home"></i>
+                                    {{ order['delivery_address'] }}
+                                </div>
+                            </td>
+                            <td>
+                                {% if order['status'] == 'Pending' %}
+                                    <span class="status-badge status-pending">
+                                        <i class="fas fa-clock"></i>
+                                        {{ order['status'] }}
+                                    </span>
+                                {% elif order['status'] == 'Processing' %}
+                                    <span class="status-badge status-processing">
+                                        <i class="fas fa-sync-alt"></i>
+                                        {{ order['status'] }}
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge status-delivered">
+                                        <i class="fas fa-check-circle"></i>
+                                        {{ order['status'] }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="date-display">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ order['created_at'] }}
+                                </div>
+                            </td>
+                            <td>
+                                <form method="POST" action="/admin/assign_delivery/{{ order['id'] }}" class="assignment-form">
+                                    <select name="delivery_person_id" class="form-select" required>
+                                        <option value="">Select Person</option>
+                                        {% for person in delivery_persons %}
+                                            <option value="{{ person['id'] }}" {% if order['delivery_person_id'] == person['id'] %}selected{% endif %}>
+                                                {{ person['name'] }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn btn-outline-primary action-btn">
+                                        <i class="fas fa-user-check"></i>
+                                        Assign
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                {% if order['status'] != 'Delivered' %}
+                                    <a href="/admin/update_status/{{ order['id'] }}/Delivered" 
+                                       class="btn btn-success action-btn"
+                                       onclick="this.innerHTML='<i class=\'fas fa-spinner fa-spin\'></i> Processing...'; this.classList.add('btn-loading');">
+                                        <i class="fas fa-check-double"></i>
+                                        Mark Delivered
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>

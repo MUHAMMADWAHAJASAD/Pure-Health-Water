@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - PureHealth</title>
+    
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            animation: floating 15s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes floating {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg); 
+                opacity: 0.3;
+            }
+            33% { 
+                transform: translate(30px, -30px) rotate(120deg); 
+                opacity: 0.5;
+            }
+            66% { 
+                transform: translate(-20px, 20px) rotate(240deg); 
+                opacity: 0.4;
+            }
+        }
+
+        /* Geometric shapes in background */
+        .bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 45px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .admin-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4); }
+        }
+
+        .admin-icon i {
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .login-card h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: #718096;
+            font-size: 1rem;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            height: 58px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            padding: 16px 50px 16px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            z-index: 10;
+            transition: color 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .form-control:focus + .input-icon {
+            color: #667eea;
+        }
+
+        .btn-primary {
+            width: 100%;
+            height: 58px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+        }
+
+        .alert {
+            margin-bottom: 25px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border-left: 4px solid #ef4444;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #059669;
+            border-left: 4px solid #22c55e;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .btn-close {
+            filter: none;
+            opacity: 0.7;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 12px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+            color: #4a5568;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .security-badge i {
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        /* Loading state */
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 40px 30px;
+                margin: 20px;
+                border-radius: 20px;
+            }
+            
+            .login-card h2 {
+                font-size: 1.75rem;
+            }
+            
+            .admin-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .admin-icon i {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .form-control {
+                height: 54px;
+                padding: 16px 45px 16px 18px;
+            }
+            
+            .btn-primary {
+                height: 54px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Page load animation */
+        .login-container {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="admin-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <h2>Admin Portal</h2>
+                <p class="login-subtitle">Secure access to PureHealth management</p>
+            </div>
+
+            <!-- Flash Error Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <!-- Login Form -->
+            <form method="POST" id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username" required>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Access Admin Panel
+                </button>
+            </form>
+
+            <div class="security-badge">
+                <i class="fas fa-shield-check"></i>
+                <span>Secured with enterprise-grade encryption</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const inputs = form.querySelectorAll('input[required]');
+        
+            form.addEventListener('submit', function () {
+                loginBtn.classList.add('btn-loading');
+                loginBtn.disabled = true;
+            });
+        
+            inputs.forEach(input => {
+                input.addEventListener('blur', function () {
+                    if (this.value.trim() === '') {
+                        this.style.borderColor = '#ef4444';
+                        this.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                    } else {
+                        this.style.borderColor = '#22c55e';
+                        this.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.1)';
+                    }
+                });
+        
+                input.addEventListener('input', function () {
+                    if (this.style.borderColor === 'rgb(239, 68, 68)' && this.value.trim() !== '') {
+                        this.style.borderColor = '#22c55e';
+                        this.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.1)';
+                    }
+                });
+        
+                input.addEventListener('focus', function () {
+                    if (
+                        this.style.borderColor === 'rgb(239, 68, 68)' ||
+                        this.style.borderColor === 'rgb(34, 197, 94)'
+                    ) {
+                        this.style.borderColor = '#667eea';
+                        this.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
+                    }
+                });
+            });
+        
+            // Auto-dismiss alerts using Bootstrap 5 Alert
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    if (alert && bootstrap && bootstrap.Alert) {
+                        const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                        bsAlert.close();
+                    }
+                }, 5000);
+            });
+        
+            // Smooth hover effect
+            inputs.forEach(input => {
+                input.addEventListener('mouseenter', function () {
+                    if (!this.matches(':focus')) {
+                        this.style.transform = 'translateY(-1px)';
+                    }
+                });
+        
+                input.addEventListener('mouseleave', function () {
+                    if (!this.matches(':focus')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+        
+            // Focus animation
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('focus', function () {
+                    const parent = this.closest('.form-group');
+                    if (parent) {
+                        parent.style.transform = 'scale(1.02)';
+                        parent.style.transition = 'transform 0.3s ease';
+                    }
+                });
+        
+                input.addEventListener('blur', function () {
+                    const parent = this.closest('.form-group');
+                    if (parent) {
+                        parent.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        
+            // Keyboard navigation (Enter key)
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                    const inputs = Array.from(form.querySelectorAll('input'));
+                    const currentIndex = inputs.indexOf(e.target);
+                    const nextInput = inputs[currentIndex + 1];
+        
+                    if (nextInput) {
+                        nextInput.focus();
+                        e.preventDefault();
+                    }
+                }
+            });
+        });
+        </script>        
+</body>
+</html>
