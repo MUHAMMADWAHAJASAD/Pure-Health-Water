@@ -1,29 +1,21 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, session, flash
 from routes.customer_routes import customer_bp
 from routes.order_routes import order_bp
 from routes.admin_routes import admin_bp
 from routes.bottle_routes import bottle_bp
 from routes.delivery_routes import delivery_bp
-from flask import Flask, render_template, request, redirect, session, flash
+from routes.payment_routes import payment_bp
 from utils.db import get_db_connection
 from models.user import verify_user
 from models.admin import verify_admin
 from models.delivery_person import verify_delivery_person
-from routes.customer_routes import customer_bp
-from routes.admin_routes import admin_bp
-from routes.delivery_routes import delivery_bp
-from routes.customer_routes import customer_bp
-from routes.admin_routes import admin_bp
-from routes.delivery_routes import delivery_bp
-from utils.db import get_db_connection
-from routes.payment_routes import payment_bp
+import os
 
-
+# Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # required for session
+app.secret_key = os.environ.get("SECRET_KEY", "your_secret_key")  # Use env var for production
 
 # Register Blueprints
-
 app.register_blueprint(order_bp, url_prefix='/orders')
 app.register_blueprint(admin_bp, url_prefix='/admin')
 app.register_blueprint(bottle_bp, url_prefix='/bottles')
@@ -32,15 +24,14 @@ app.register_blueprint(customer_bp, url_prefix='/customer')
 app.register_blueprint(payment_bp)
 
 
-
-
-
-
+# -------------------------
+# LOGIN & LOGOUT ROUTES
+# -------------------------
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username'] 
+        username = request.form['username']
         password = request.form['password']
         role = request.form['role']
 
@@ -76,12 +67,18 @@ def login():
 
     return render_template('login.html')
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
 
 
+# -------------------------
+# MAIN ENTRY POINT
+# -------------------------
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Railway provides PORT env variable automatically
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)

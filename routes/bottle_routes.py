@@ -14,7 +14,7 @@ def bottle_list():
     if request.method == 'POST':
         
         name = request.form['name']
-        size = int(request.form['size_liters'])
+        size = float(request.form['size_liters'])
         price = float(request.form['price'])
         insert_bottle(conn,name, size, price)
         flash('Bottle added!')
