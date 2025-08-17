@@ -10,7 +10,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 db = SQLDatabase.from_uri("sqlite:///database.db")
 
-llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, temperature=0)
+llm = ChatOpenAI(api_key=OPENAI_API_KEY, temperature=0)
 
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
