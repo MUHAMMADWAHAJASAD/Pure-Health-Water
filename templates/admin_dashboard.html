@@ -49,7 +49,8 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6366f1 100%);
             min-height: 100vh;
             color: var(--gray-800);
-            overflow-x: auto;
+            overflow-x: hidden;
+            padding: 0;
         }
 
         /* Background Animation */
@@ -108,12 +109,12 @@
             backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 50px 0;
+            padding: clamp(20px, 4vw, 30px) 15px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            margin-bottom: 40px;
-            border-radius: 0 0 30px 30px;
+            margin-bottom: clamp(15px, 3vw, 20px);
+            border-radius: 0 0 clamp(20px, 4vw, 30px) clamp(20px, 4vw, 30px);
         }
 
         .header::before {
@@ -135,16 +136,21 @@
         .header h2 {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 2.8rem;
+            font-size: clamp(1.2rem, 4vw, 2.8rem);
             margin-bottom: 10px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             animation: slideDown 1s ease-out;
             position: relative;
             z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: clamp(8px, 2vw, 15px);
         }
 
         .header .subtitle {
-            font-size: 1.1rem;
+            font-size: clamp(0.8rem, 2.5vw, 1.1rem);
             opacity: 0.9;
             font-weight: 400;
             position: relative;
@@ -158,9 +164,7 @@
         }
 
         .card-icon {
-            font-size: 2.5rem;
-            margin-right: 20px;
-            vertical-align: middle;
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
             animation: pulse 3s infinite;
             filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
         }
@@ -171,23 +175,29 @@
         }
 
         /* Main Container */
-        .container {
+        .main-container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
             position: relative;
             z-index: 1;
-            max-width: 1600px;
+            padding: 0 clamp(5px, 2vw, 15px);
         }
 
         /* Flash Messages */
         .alert {
             border: none;
             border-radius: 15px;
-            padding: 18px 25px;
-            margin-bottom: 25px;
+            padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 20px);
+            margin-bottom: 20px;
             backdrop-filter: blur(15px);
             animation: slideInDown 0.6s ease-out;
             position: relative;
             z-index: 10;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            margin-left: clamp(5px, 2vw, 0);
+            margin-right: clamp(5px, 2vw, 0);
         }
 
         .alert-success {
@@ -224,12 +234,13 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            padding: 45px;
+            border-radius: clamp(16px, 4vw, 24px);
+            padding: clamp(15px, 4vw, 45px);
             box-shadow: 0 25px 50px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
             animation: fadeInUp 1s ease-out 0.4s both;
+            margin: 0 clamp(5px, 2vw, 0);
         }
 
         .dashboard-section::before {
@@ -258,10 +269,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 35px;
-            padding-bottom: 25px;
+            margin-bottom: clamp(20px, 4vw, 25px);
+            padding-bottom: clamp(15px, 3vw, 20px);
             border-bottom: 3px solid var(--gray-200);
             position: relative;
+            flex-wrap: wrap;
+            gap: clamp(10px, 3vw, 15px);
         }
 
         .manage-btn::after {
@@ -269,7 +282,7 @@
             position: absolute;
             bottom: -3px;
             left: 0;
-            width: 60px;
+            width: clamp(40px, 8vw, 60px);
             height: 3px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 2px;
@@ -280,15 +293,15 @@
             font-weight: 600;
             color: var(--gray-800);
             margin: 0;
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 3vw, 1.4rem);
         }
 
         /* Enhanced Button Styles */
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
             border: none !important;
-            border-radius: 16px;
-            padding: 14px 32px;
+            border-radius: clamp(12px, 3vw, 16px);
+            padding: clamp(10px, 2.5vw, 14px) clamp(16px, 4vw, 32px);
             color: white;
             font-weight: 600;
             text-decoration: none;
@@ -296,13 +309,17 @@
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
             position: relative;
             overflow: hidden;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             text-transform: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
         }
 
         .btn-primary:hover {
             background: linear-gradient(135deg, var(--primary-dark), var(--secondary)) !important;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
             color: white;
         }
@@ -327,21 +344,35 @@
             font-size: 1.1rem;
         }
 
-        /* Perfect Table Styles */
-        .table-responsive {
-            border-radius: 20px;
+        /* Table Container */
+        .table-container {
+            width: 100%;
             overflow: hidden;
+            border-radius: clamp(16px, 4vw, 20px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             background: white;
             border: 1px solid rgba(255,255,255,0.2);
             margin-top: 20px;
         }
 
+        /* Desktop Table */
+        .desktop-table {
+            display: block;
+        }
+
+        .table-responsive {
+            border-radius: clamp(16px, 4vw, 20px);
+            overflow-x: auto;
+            background: white;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .table {
             margin-bottom: 0;
-            border-radius: 20px;
+            border-radius: clamp(16px, 4vw, 20px);
             overflow: hidden;
-            white-space: nowrap;
+            min-width: 1000px;
+            width: 100%;
         }
 
         /* Perfect Header Styling */
@@ -350,9 +381,9 @@
             color: white !important;
             font-weight: 600;
             border: none !important;
-            padding: 20px 15px;
+            padding: clamp(12px, 3vw, 15px) clamp(8px, 2vw, 10px);
             text-align: center;
-            font-size: 0.875rem;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             position: sticky;
@@ -360,6 +391,7 @@
             z-index: 10;
             font-family: 'Poppins', sans-serif;
             vertical-align: middle;
+            white-space: nowrap;
         }
 
         /* Perfect Column Widths */
@@ -384,13 +416,13 @@
 
         /* Perfect Cell Styling */
         .table td {
-            padding: 18px 15px !important;
+            padding: clamp(12px, 3vw, 15px) clamp(8px, 2vw, 10px) !important;
             border: none !important;
             vertical-align: middle !important;
             text-align: center;
             border-bottom: 1px solid var(--gray-200) !important;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
             line-height: 1.4;
         }
 
@@ -411,47 +443,171 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Order ID Styling */
+        /* Mobile Cards */
+        .mobile-cards {
+            display: none;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: clamp(12px, 3vw, 16px);
+            padding: clamp(15px, 4vw, 20px);
+            margin-bottom: clamp(12px, 3vw, 15px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-id-mobile {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: clamp(1rem, 3vw, 1.1rem);
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: clamp(12px, 3vw, 15px);
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: clamp(0.7rem, 2vw, 0.75rem);
+            color: var(--gray-600);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: clamp(0.85rem, 2.5vw, 0.9rem);
+            font-weight: 500;
+            color: var(--gray-800);
+            word-break: break-word;
+        }
+
+        .address-mobile {
+            grid-column: 1 / -1;
+        }
+
+        .address-mobile .detail-value {
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
+            line-height: 1.4;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 2vw, 10px);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .assignment-form-mobile {
+            display: flex;
+            gap: clamp(8px, 2vw, 10px);
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .assignment-form-mobile .form-select {
+            flex: 1;
+            min-width: 0;
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
+            padding: clamp(8px, 2vw, 10px) clamp(10px, 3vw, 12px);
+            border: 2px solid var(--gray-300);
+            border-radius: clamp(8px, 2vw, 10px);
+            transition: var(--transition);
+            background: white;
+        }
+
+        .assignment-form-mobile .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+        .assignment-form-mobile .btn {
+            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px);
+            font-size: clamp(0.75rem, 2vw, 0.8rem);
+            border-radius: clamp(8px, 2vw, 10px);
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Enhanced Component Styles */
         .order-id {
             font-weight: 700;
             color: var(--primary);
-            font-size: 0.95rem;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
         }
 
-        /* Customer Info */
         .customer-info {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: clamp(6px, 2vw, 8px);
             font-weight: 600;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
         }
 
         .customer-info i {
             color: var(--primary);
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
-        /* Quantity Badge */
         .qty-badge {
             background: linear-gradient(135deg, var(--gray-600), var(--gray-700));
             color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: clamp(4px, 1.5vw, 6px) clamp(8px, 3vw, 12px);
+            border-radius: clamp(15px, 4vw, 20px);
+            font-size: clamp(0.75rem, 2vw, 0.8rem);
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            white-space: nowrap;
         }
 
-        /* Address Display */
         .address-display {
             max-width: 180px;
             margin: 0 auto;
-            font-size: 0.85rem;
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
             line-height: 1.3;
             color: var(--gray-700);
+            word-break: break-word;
+            hyphens: auto;
         }
 
         .address-display i {
@@ -461,25 +617,26 @@
 
         /* Enhanced Badge Styles */
         .status-badge {
-            padding: 8px 16px;
-            border-radius: 25px;
+            padding: clamp(6px, 2vw, 8px) clamp(12px, 3vw, 16px);
+            border-radius: clamp(20px, 5vw, 25px);
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: clamp(0.75rem, 2vw, 0.8rem);
             text-transform: capitalize;
             letter-spacing: 0.3px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: clamp(4px, 1.5vw, 6px);
             position: relative;
             overflow: hidden;
-            min-width: 100px;
+            min-width: clamp(80px, 20vw, 100px);
             justify-content: center;
+            white-space: nowrap;
         }
 
         .status-pending {
             background: linear-gradient(135deg, var(--warning), #f97316);
             color: white;
-            animation: pulse 2s infinite;
+            animation: pulse-status 2s infinite;
         }
 
         .status-processing {
@@ -492,14 +649,13 @@
             color: white;
         }
 
-        @keyframes pulse {
+        @keyframes pulse-status {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
 
-        /* Date Display */
         .date-display {
-            font-size: 0.85rem;
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
             color: var(--gray-600);
             line-height: 1.3;
         }
@@ -509,11 +665,11 @@
             margin-right: 4px;
         }
 
-        /* Assignment Form - Perfectly Aligned */
+        /* Assignment Form - Desktop */
         .assignment-form {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: clamp(6px, 2vw, 8px);
             justify-content: center;
             max-width: 250px;
             margin: 0 auto;
@@ -521,12 +677,12 @@
 
         .assignment-form .form-select {
             flex: 1;
-            min-width: 140px;
-            max-width: 160px;
-            font-size: 0.85rem;
-            padding: 8px 12px;
+            min-width: clamp(120px, 25vw, 140px);
+            max-width: clamp(140px, 30vw, 160px);
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
+            padding: clamp(6px, 2vw, 8px) clamp(10px, 3vw, 12px);
             border: 2px solid var(--gray-300);
-            border-radius: 10px;
+            border-radius: clamp(8px, 2vw, 10px);
             transition: var(--transition);
             background: white;
         }
@@ -538,9 +694,9 @@
         }
 
         .assignment-form .btn {
-            padding: 8px 16px;
-            font-size: 0.8rem;
-            border-radius: 10px;
+            padding: clamp(6px, 2vw, 8px) clamp(12px, 3vw, 16px);
+            font-size: clamp(0.75rem, 2vw, 0.8rem);
+            border-radius: clamp(8px, 2vw, 10px);
             font-weight: 600;
             white-space: nowrap;
             flex-shrink: 0;
@@ -548,9 +704,9 @@
 
         /* Action Buttons */
         .action-btn {
-            padding: 10px 20px;
-            font-size: 0.85rem;
-            border-radius: 12px;
+            padding: clamp(8px, 2.5vw, 10px) clamp(16px, 4vw, 20px);
+            font-size: clamp(0.8rem, 2vw, 0.85rem);
+            border-radius: clamp(10px, 3vw, 12px);
             font-weight: 600;
             border: none;
             transition: var(--transition);
@@ -558,9 +714,11 @@
             overflow: hidden;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            min-width: 120px;
+            gap: clamp(4px, 1.5vw, 6px);
+            min-width: clamp(100px, 25vw, 120px);
             justify-content: center;
+            white-space: nowrap;
+            text-decoration: none;
         }
 
         .btn-success.action-btn {
@@ -593,20 +751,21 @@
         .delivered-status {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: clamp(6px, 2vw, 8px);
             color: var(--success);
             font-weight: 600;
-            font-size: 0.9rem;
-            padding: 10px 16px;
+            font-size: clamp(0.85rem, 2vw, 0.9rem);
+            padding: clamp(8px, 2.5vw, 10px) clamp(12px, 4vw, 16px);
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 214, 160, 0.1));
-            border-radius: 15px;
+            border-radius: clamp(12px, 3vw, 15px);
             border: 2px solid rgba(16, 185, 129, 0.2);
-            min-width: 120px;
+            min-width: clamp(100px, 25vw, 120px);
             justify-content: center;
+            white-space: nowrap;
         }
 
         .delivered-status i {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             animation: checkmark 1s ease-in-out;
         }
 
@@ -614,66 +773,6 @@
             0% { transform: scale(0) rotate(0deg); }
             50% { transform: scale(1.2) rotate(180deg); }
             100% { transform: scale(1) rotate(360deg); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .container { max-width: 100%; }
-            .dashboard-section { padding: 30px 20px; }
-            
-            .table th:nth-child(4) { width: 25%; }
-            .table th:nth-child(7) { width: 22%; }
-            
-            .assignment-form .form-select {
-                min-width: 120px;
-                max-width: 140px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .header h2 { font-size: 2.2rem; }
-            .manage-btn { 
-                flex-direction: column; 
-                gap: 20px; 
-                text-align: center;
-            }
-            
-            .table th, .table td {
-                padding: 12px 8px !important;
-                font-size: 0.8rem;
-            }
-            
-            .assignment-form {
-                flex-direction: column;
-                gap: 8px;
-                max-width: none;
-            }
-            
-            .assignment-form .form-select {
-                width: 100%;
-                max-width: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .table-responsive {
-                font-size: 0.75rem;
-            }
-            
-            .table th, .table td {
-                padding: 10px 6px !important;
-            }
-            
-            .status-badge, .qty-badge, .action-btn {
-                font-size: 0.7rem;
-                padding: 6px 10px;
-                min-width: 80px;
-            }
-            
-            .customer-info {
-                flex-direction: column;
-                gap: 4px;
-            }
         }
 
         /* Custom scrollbar for table */
@@ -721,6 +820,440 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Responsive Design - Mobile First Approach */
+
+        /* Large Desktops */
+        @media (min-width: 1400px) {
+            .main-container {
+                padding: 0 20px;
+            }
+            
+            .table th, .table td {
+                padding: 18px 12px !important;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Standard Desktops */
+        @media (max-width: 1200px) {
+            .main-container { 
+                padding: 0 15px;
+            }
+            .dashboard-section { 
+                padding: clamp(20px, 4vw, 35px);
+            }
+            
+            .table th:nth-child(4) { width: 25%; }
+            .table th:nth-child(7) { width: 22%; }
+            
+            .assignment-form .form-select {
+                min-width: 110px;
+                max-width: 130px;
+            }
+        }
+
+        /* Tablets and Small Laptops */
+        @media (max-width: 992px) {
+            .manage-btn { 
+                flex-direction: column; 
+                gap: 15px; 
+                text-align: center;
+                align-items: stretch;
+            }
+            
+            .btn-primary {
+                width: 100%;
+                justify-content: center;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .table {
+                min-width: 900px;
+            }
+            
+            .table th, .table td {
+                padding: 12px 8px !important;
+                font-size: 0.75rem;
+            }
+            
+            .assignment-form {
+                flex-direction: column;
+                gap: 8px;
+                max-width: none;
+            }
+            
+            .assignment-form .form-select {
+                width: 100%;
+                max-width: none;
+                min-width: 0;
+            }
+
+            .assignment-form .btn {
+                width: 100%;
+            }
+        }
+
+        /* Large Mobile Devices */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .main-container {
+                padding: 0;
+            }
+
+            .header {
+                margin-bottom: 10px;
+                border-radius: 0 0 15px 15px;
+            }
+
+            .dashboard-section {
+                border-radius: 15px;
+                margin: 0 5px;
+                padding: 20px 15px;
+            }
+
+            /* Hide desktop table on mobile */
+            .desktop-table {
+                display: none !important;
+            }
+
+            /* Show mobile cards */
+            .mobile-cards {
+                display: block !important;
+            }
+
+            .manage-btn {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                gap: 12px;
+            }
+
+            .manage-btn h4 {
+                font-size: 1.1rem;
+                text-align: center;
+            }
+
+            .alert {
+                margin: 0 5px 15px 5px;
+                padding: 12px 15px;
+                border-radius: 12px;
+            }
+
+            /* Mobile card optimizations */
+            .order-card {
+                margin: 0 0 12px 0;
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            .order-details {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .detail-item {
+                gap: 4px;
+            }
+
+            .assignment-form-mobile {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .assignment-form-mobile .form-select,
+            .assignment-form-mobile .btn {
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                min-width: auto;
+            }
+
+            .status-badge {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+                min-width: 90px;
+            }
+
+            .qty-badge {
+                font-size: 0.75rem;
+                padding: 5px 10px;
+            }
+
+            .header h2 {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .card-icon {
+                display: block;
+            }
+        }
+
+        /* Standard Mobile Devices */
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0;
+            }
+
+            .dashboard-section {
+                margin: 0;
+                border-radius: 0;
+                padding: 15px 12px;
+            }
+
+            .header {
+                border-radius: 0;
+                padding: 15px 10px;
+            }
+
+            .alert {
+                margin: 0 0 10px 0;
+                border-radius: 0;
+            }
+
+            .order-card {
+                border-radius: 10px;
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+
+            .order-header {
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .order-id-mobile {
+                font-size: 1rem;
+                order: 1;
+            }
+
+            .status-badge {
+                order: 2;
+                align-self: center;
+            }
+
+            .order-details {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .detail-label {
+                font-size: 0.7rem;
+            }
+
+            .detail-value {
+                font-size: 0.85rem;
+            }
+
+            .assignment-form-mobile .form-select {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+
+            .assignment-form-mobile .btn {
+                font-size: 0.8rem;
+                padding: 10px 16px;
+            }
+
+            .manage-btn {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .btn-primary {
+                font-size: 0.85rem;
+                padding: 12px 20px;
+            }
+        }
+
+        /* Small Mobile Devices */
+        @media (max-width: 360px) {
+            .header {
+                padding: 12px 8px;
+            }
+
+            .dashboard-section {
+                padding: 12px 8px;
+            }
+
+            .order-card {
+                padding: 10px;
+                margin-bottom: 8px;
+            }
+
+            .order-header {
+                margin-bottom: 8px;
+                padding-bottom: 6px;
+            }
+
+            .order-details {
+                gap: 8px;
+            }
+
+            .order-actions {
+                gap: 8px;
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            .assignment-form-mobile {
+                gap: 8px;
+            }
+
+            .detail-value {
+                font-size: 0.8rem;
+            }
+
+            .action-btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+
+            .status-badge {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+                min-width: 80px;
+            }
+
+            .qty-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .header {
+                padding: 12px 15px;
+            }
+
+            .header h2 {
+                font-size: 1.8rem;
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .card-icon {
+                font-size: 1.8rem;
+            }
+
+            .dashboard-section {
+                padding: 15px;
+            }
+
+            .order-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tablet specific adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .desktop-table {
+                display: block;
+            }
+
+            .mobile-cards {
+                display: none;
+            }
+
+            .table {
+                min-width: 800px;
+            }
+
+            .table th, .table td {
+                padding: 12px 6px !important;
+                font-size: 0.75rem;
+            }
+
+            .assignment-form .form-select {
+                min-width: 100px;
+                max-width: 120px;
+                font-size: 0.75rem;
+            }
+
+            .assignment-form .btn {
+                font-size: 0.75rem;
+                padding: 8px 12px;
+            }
+
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+                min-width: 90px;
+            }
+
+            .address-display {
+                max-width: 150px;
+                font-size: 0.75rem;
+            }
+
+            .status-badge {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+                min-width: 85px;
+            }
+
+            .qty-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .table th, .table td {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
+
+        /* Ensure proper touch targets on mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .action-btn, .form-select {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+            
+            .assignment-form-mobile .form-select {
+                min-height: 44px;
+            }
+            
+            .assignment-form-mobile .btn {
+                min-height: 44px;
+            }
+            
+            .table th, .table td {
+                min-height: 44px;
+            }
+        }
+
+        /* Improved focus states for accessibility */
+        *:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Reduced motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -729,12 +1262,12 @@
 
     <!-- Header -->
     <div class="header">
-        <h2><span class="card-icon">🏢</span>Admin Control Center</h2>
+        <h2><span class="card-icon">🏢</span><span>Admin Control Center</span></h2>
         <p class="subtitle">Manage all customer orders and deliveries</p>
     </div>
 
     <!-- Main Content -->
-    <div class="container fade-in">
+    <div class="main-container fade-in">
 
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -758,95 +1291,395 @@
                 </a>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-hashtag me-1"></i>ID</th>
-                            <th><i class="fas fa-user me-1"></i>Customer</th>
-                            <th><i class="fas fa-sort-numeric-up me-1"></i>Quantity</th>
-                            <th><i class="fas fa-map-marker-alt me-1"></i>Delivery Address</th>
-                            <th><i class="fas fa-info-circle me-1"></i>Status</th>
-                            <th><i class="fas fa-clock me-1"></i>Order Date</th>
-                            <th><i class="fas fa-truck me-1"></i>Delivery Assignment</th>
-                            <th><i class="fas fa-cogs me-1"></i>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for order in orders %}
-                        <tr>
-                            <td>
-                                <span class="order-id">#{{ order['id'] }}</span>
-                            </td>
-                            <td>
-                                <div class="customer-info">
-                                    <i class="fas fa-user-circle"></i>
-                                    <span>{{ order['username'] }}</span>
-                                </div>
-                            </td>
-                            <td>
+            <!-- Desktop Table -->
+            <div class="table-container desktop-table">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag me-1"></i>ID</th>
+                                <th><i class="fas fa-user me-1"></i>Customer</th>
+                                <th><i class="fas fa-sort-numeric-up me-1"></i>Quantity</th>
+                                <th><i class="fas fa-map-marker-alt me-1"></i>Delivery Address</th>
+                                <th><i class="fas fa-info-circle me-1"></i>Status</th>
+                                <th><i class="fas fa-clock me-1"></i>Order Date</th>
+                                <th><i class="fas fa-truck me-1"></i>Delivery Assignment</th>
+                                <th><i class="fas fa-cogs me-1"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>
+                                    <span class="order-id">#{{ order['id'] }}</span>
+                                </td>
+                                <td>
+                                    <div class="customer-info">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>{{ order['username'] }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="qty-badge">
+                                        <i class="fas fa-wine-bottle"></i>
+                                        {{ order['bottle_qty'] }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="address-display">
+                                        <i class="fas fa-home"></i>
+                                        {{ order['delivery_address'] }}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if order['status'] == 'Pending' %}
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i>
+                                            {{ order['status'] }}
+                                        </span>
+                                    {% elif order['status'] == 'Processing' %}
+                                        <span class="status-badge status-processing">
+                                            <i class="fas fa-sync-alt"></i>
+                                            {{ order['status'] }}
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge status-delivered">
+                                            <i class="fas fa-check-circle"></i>
+                                            {{ order['status'] }}
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="date-display">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ order['created_at'] }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <form method="POST" action="/admin/assign_delivery/{{ order['id'] }}" class="assignment-form">
+                                        <select name="delivery_person_id" class="form-select" required>
+                                            <option value="">Select Person</option>
+                                            {% for person in delivery_persons %}
+                                                <option value="{{ person['id'] }}" {% if order['delivery_person_id'] == person['id'] %}selected{% endif %}>
+                                                    {{ person['name'] }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit" class="btn btn-outline-primary action-btn">
+                                            <i class="fas fa-user-check"></i>
+                                            Assign
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    {% if order['status'] != 'Delivered' %}
+                                        <a href="/admin/update_status/{{ order['id'] }}/Delivered" 
+                                           class="btn btn-success action-btn"
+                                           onclick="this.innerHTML='<i class=\'fas fa-spinner fa-spin\'></i> Processing...'; this.classList.add('btn-loading');">
+                                            <i class="fas fa-check-double"></i>
+                                            Mark Delivered
+                                        </a>
+                                    {% else %}
+                                        <div class="delivered-status">
+                                            <i class="fas fa-check-circle"></i>
+                                            Delivered
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mobile Cards -->
+            <div class="mobile-cards">
+                {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id-mobile">#{{ order['id'] }}</div>
+                        {% if order['status'] == 'Pending' %}
+                            <span class="status-badge status-pending">
+                                <i class="fas fa-clock"></i>
+                                {{ order['status'] }}
+                            </span>
+                        {% elif order['status'] == 'Processing' %}
+                            <span class="status-badge status-processing">
+                                <i class="fas fa-sync-alt"></i>
+                                {{ order['status'] }}
+                            </span>
+                        {% else %}
+                            <span class="status-badge status-delivered">
+                                <i class="fas fa-check-circle"></i>
+                                {{ order['status'] }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="order-details">
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-user me-1"></i>Customer
+                            </div>
+                            <div class="detail-value">{{ order['username'] }}</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-wine-bottle me-1"></i>Quantity
+                            </div>
+                            <div class="detail-value">
                                 <span class="qty-badge">
                                     <i class="fas fa-wine-bottle"></i>
                                     {{ order['bottle_qty'] }}
                                 </span>
-                            </td>
-                            <td>
-                                <div class="address-display">
-                                    <i class="fas fa-home"></i>
-                                    {{ order['delivery_address'] }}
-                                </div>
-                            </td>
-                            <td>
-                                {% if order['status'] == 'Pending' %}
-                                    <span class="status-badge status-pending">
-                                        <i class="fas fa-clock"></i>
-                                        {{ order['status'] }}
-                                    </span>
-                                {% elif order['status'] == 'Processing' %}
-                                    <span class="status-badge status-processing">
-                                        <i class="fas fa-sync-alt"></i>
-                                        {{ order['status'] }}
-                                    </span>
-                                {% else %}
-                                    <span class="status-badge status-delivered">
-                                        <i class="fas fa-check-circle"></i>
-                                        {{ order['status'] }}
-                                    </span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="date-display">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    {{ order['created_at'] }}
-                                </div>
-                            </td>
-                            <td>
-                                <form method="POST" action="/admin/assign_delivery/{{ order['id'] }}" class="assignment-form">
-                                    <select name="delivery_person_id" class="form-select" required>
-                                        <option value="">Select Person</option>
-                                        {% for person in delivery_persons %}
-                                            <option value="{{ person['id'] }}" {% if order['delivery_person_id'] == person['id'] %}selected{% endif %}>
-                                                {{ person['name'] }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                    <button type="submit" class="btn btn-outline-primary action-btn">
-                                        <i class="fas fa-user-check"></i>
-                                        Assign
-                                    </button>
-                                </form>
-                            </td>
-                            <td>
-                                {% if order['status'] != 'Delivered' %}
-                                    <a href="/admin/update_status/{{ order['id'] }}/Delivered" 
-                                       class="btn btn-success action-btn"
-                                       onclick="this.innerHTML='<i class=\'fas fa-spinner fa-spin\'></i> Processing...'; this.classList.add('btn-loading');">
-                                        <i class="fas fa-check-double"></i>
-                                        Mark Delivered
-                                    </a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-calendar-alt me-1"></i>Order Date
+                            </div>
+                            <div class="detail-value">{{ order['created_at'] }}</div>
+                        </div>
+
+                        <div class="detail-item address-mobile">
+                            <div class="detail-label">
+                                <i class="fas fa-map-marker-alt me-1"></i>Delivery Address
+                            </div>
+                            <div class="detail-value">{{ order['delivery_address'] }}</div>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <form method="POST" action="/admin/assign_delivery/{{ order['id'] }}" class="assignment-form-mobile">
+                            <select name="delivery_person_id" class="form-select" required>
+                                <option value="">Select Delivery Person</option>
+                                {% for person in delivery_persons %}
+                                    <option value="{{ person['id'] }}" {% if order['delivery_person_id'] == person['id'] %}selected{% endif %}>
+                                        {{ person['name'] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary action-btn">
+                                <i class="fas fa-user-check"></i>
+                                Assign
+                            </button>
+                        </form>
+
+                        {% if order['status'] != 'Delivered' %}
+                            <a href="/admin/update_status/{{ order['id'] }}/Delivered" 
+                               class="btn btn-success action-btn"
+                               onclick="this.innerHTML='<i class=\'fas fa-spinner fa-spin\'></i> Processing...'; this.classList.add('btn-loading');">
+                                <i class="fas fa-check-double"></i>
+                                Mark as Delivered
+                            </a>
+                        {% else %}
+                            <div class="delivered-status">
+                                <i class="fas fa-check-circle"></i>
+                                Order Delivered
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Enhanced JavaScript -->
+    <script>
+        // Create floating particles with improved performance
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            
+            const particlesContainer = document.getElementById('particles');
+            if (particlesContainer) {
+                particlesContainer.appendChild(particle);
+            }
+
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 25000);
+        }
+
+        // Create particles with performance optimization
+        let particleInterval;
+        function initParticles() {
+            // Only create particles on larger screens for performance
+            if (window.innerWidth > 768) {
+                particleInterval = setInterval(createParticle, 2000);
+                // Create initial particles
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(createParticle, i * 1000);
+                }
+            }
+        }
+
+        // Handle window resize for particles
+        function handleResize() {
+            if (window.innerWidth <= 768 && particleInterval) {
+                clearInterval(particleInterval);
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach(p => p.remove());
+            } else if (window.innerWidth > 768 && !particleInterval) {
+                initParticles();
+            }
+        }
+
+        // Initialize particles on load
+        initParticles();
+        window.addEventListener('resize', handleResize);
+
+        // Enhanced form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn && !submitBtn.disabled) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('btn-loading');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    
+                    // Re-enable after timeout
+                    setTimeout(() => {
+                        if (submitBtn.disabled) {
+                            submitBtn.disabled = false;
+                            submitBtn.classList.remove('btn-loading');
+                            submitBtn.innerHTML = originalText;
+                        }
+                    }, 5000);
+                }
+            });
+        });
+
+        // Auto-hide alerts with fade animation
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                if (window.bootstrap && bootstrap.Alert) {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }
+            });
+        }, 7000);
+
+        // Smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Handle orientation changes on mobile
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                // Scroll to top and refresh layout
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Force layout recalculation
+                document.body.style.height = 'auto';
+                setTimeout(() => {
+                    document.body.style.height = '';
+                }, 100);
+            }, 200);
+        });
+
+        // Improved viewport handling for mobile browsers
+        function setVH() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', vh + 'px');
+        }
+        
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setVH, 100);
+        });
+
+        // Enhanced touch interaction for mobile
+        if ('ontouchstart' in window) {
+            document.body.addEventListener('touchstart', function() {}, {passive: true});
+            
+            // Improve scroll performance on mobile
+            document.addEventListener('touchmove', function(e) {
+                if (e.target.closest('.table-responsive')) {
+                    e.stopPropagation();
+                }
+            }, {passive: true});
+        }
+
+        // Keyboard navigation improvements
+        document.addEventListener('keydown', function(e) {
+            // Improve form navigation
+            if (e.key === 'Enter' && e.target.tagName === 'SELECT') {
+                const form = e.target.closest('form');
+                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+                if (submitBtn && !submitBtn.disabled) {
+                    submitBtn.click();
+                }
+            }
+        });
+
+        // Performance optimization: Intersection Observer for animations
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '50px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe mobile cards for performance
+            document.querySelectorAll('.order-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Network-aware features
+        if ('connection' in navigator) {
+            const connection = navigator.connection;
+            if (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g') {
+                // Disable heavy animations on slow connections
+                document.body.classList.add('reduced-motion');
+            }
+        }
+
+        // Error handling for form submissions
+        window.addEventListener('error', function(e) {
+            console.error('Error occurred:', e.error);
+            
+            // Re-enable any disabled buttons
+            document.querySelectorAll('.btn-loading').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('btn-loading');
+            });
+        });
+
+        // Focus management for better accessibility
+        document.querySelectorAll('.form-select').forEach(select => {
+            select.addEventListener('change', function() {
+                if (this.value) {
+                    const form = this.closest('form');
+                    const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+                    if (submitBtn) {
+                        submitBtn.focus();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

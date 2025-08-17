@@ -1,4 +1,8 @@
-from flask import Flask, render_template, request, redirect, session, flash
+import os
+from flask import Flask, render_template, request, redirect, session, flash, jsonify
+from dotenv import load_dotenv
+
+# Import your blueprints and helpers
 from routes.customer_routes import customer_bp
 from routes.order_routes import order_bp
 from routes.admin_routes import admin_bp
@@ -9,11 +13,16 @@ from utils.db import get_db_connection
 from models.user import verify_user
 from models.admin import verify_admin
 from models.delivery_person import verify_delivery_person
-import os
+from langchain_helper import ask_question
 
-# Initialize Flask app
+# Load environment variables only for local development
+if os.environ.get("RAILWAY_ENVIRONMENT") is None:  
+    load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "your_secret_key")  # Use env var for production
+
+# Secret key from env (Railway -> Variables)
+app.secret_key = os.environ.get("SECRET_KEY", "dev_secret_fallback")
 
 # Register Blueprints
 app.register_blueprint(order_bp, url_prefix='/orders')
@@ -23,11 +32,7 @@ app.register_blueprint(delivery_bp, url_prefix='/delivery')
 app.register_blueprint(customer_bp, url_prefix='/customer')
 app.register_blueprint(payment_bp)
 
-
-# -------------------------
 # LOGIN & LOGOUT ROUTES
-# -------------------------
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -67,18 +72,24 @@ def login():
 
     return render_template('login.html')
 
+# LangChain Ask Endpoint
+@app.route("/ask", methods=["POST"])
+def ask():
+    try:
+        data = request.get_json()
+        question = data.get("question", "")
+        answer = ask_question(question)
+        return jsonify({"answer": answer})
+    except Exception as e:
+        return jsonify({"answer": f"Error: {str(e)}"})
 
+# Logout route
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
 
-
-# -------------------------
 # MAIN ENTRY POINT
-# -------------------------
-
 if __name__ == '__main__':
-    # Railway provides PORT env variable automatically
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+    app.run(host="0.0.0.0", port=port)
