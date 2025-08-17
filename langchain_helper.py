@@ -6,20 +6,32 @@ from langchain_community.agent_toolkits.sql.base import SQLDatabaseToolkit
 from langchain_community.utilities import SQLDatabase
 from langchain_openai import ChatOpenAI
 
+# Load API key from environment
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Connect database
 db = SQLDatabase.from_uri("sqlite:///database.db")
 
-llm = ChatOpenAI(api_key=OPENAI_API_KEY, temperature=0)
+# Initialize LLM only if API key is available
+llm = None
+toolkit = None
+agent_executor = None
 
-toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+if OPENAI_API_KEY:
+    try:
+        llm = ChatOpenAI(api_key=OPENAI_API_KEY, temperature=0)
+        toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+        agent_executor = create_sql_agent(
+            llm=llm,
+            toolkit=toolkit,
+            verbose=True
+        )
+    except Exception as e:
+        print(f"[Warning] Could not initialize ChatOpenAI: {e}")
+else:
+    print("[Info] No OPENAI_API_KEY set. AI features disabled.")
 
-agent_executor = create_sql_agent(
-    llm=llm,
-    toolkit=toolkit,
-    verbose=True
-)
-
+# Load FAQ data
 faq_path = os.path.join(os.path.dirname(__file__), "water_faq.json")
 with open(faq_path, "r") as f:
     faq_data = json.load(f)
@@ -33,12 +45,17 @@ def check_faq(question: str) -> str:
     return None
 
 def ask_question(question: str) -> str:
+    # First check FAQ
     faq_answer = check_faq(question)
     if faq_answer:
         return faq_answer
 
-    try:
-        response = agent_executor.run(question)
-        return response
-    except Exception as e:
-        return f"Error: {str(e)}"
+    # Then try SQL agent if available
+    if agent_executor:
+        try:
+            response = agent_executor.run(question)
+            return response
+        except Exception as e:
+            return f"Error: {str(e)}"
+    else:
+        return "AI service is not available because no API key is set."
